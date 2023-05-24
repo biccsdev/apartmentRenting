@@ -1,54 +1,120 @@
 import { useRouter } from "next/router";
+import styles from "../../styles/Home.module.css";
+import Head from "next/head";
+import NavBar from "../../components/navbar";
+import ImagesContainer from "../../components/cityApartments/imagesContainer";
+import MapContainer from "../../components/cityApartments/mapContainer";
 
 const depaCaboA = {
     _id: "fsadihw4k3hrj3",
     title: "Departamento en Los Cabos",
-    description: "Increíble condominio muy cerca del centro. Rooftop con asador y alberca donde podrá disfrutar de la hermosa vista.Este condominio tiene todo lo necesario para una estancia confortable. Tendrás las mejores vacaciones aquí",
+    description:
+        "Increíble condominio muy cerca del centro. Rooftop con asador y alberca donde podrá disfrutar de la hermosa vista.Este condominio tiene todo lo necesario para una estancia confortable. Tendrás las mejores vacaciones aquí",
     thumbnail: "/apartmentPictures/losCabos/A/highlight.png",
-    photos: [],
+    photos: [
+        "/apartmentPictures/losCabos/A/1.png",
+        "/apartmentPictures/losCabos/A/2.png",
+        "/apartmentPictures/losCabos/A/3.png",
+        "/apartmentPictures/losCabos/A/4.png",
+        "/apartmentPictures/losCabos/A/5.png",
+        "/apartmentPictures/losCabos/A/6.png",
+        "/apartmentPictures/losCabos/A/7.png",
+        "/apartmentPictures/losCabos/A/8.png",
+        "/apartmentPictures/losCabos/A/9.png",
+    ],
     highlights: [
         {
             title: "Area para trabajo",
-            description: "El condominio cuenta con un área cómoda para trabajar, además cuenta con excelente conexión privada a internet."
+            description:
+                "El condominio cuenta con un área cómoda para trabajar, además cuenta con excelente conexión privada a internet.",
         },
         {
             title: "Check-In Privado",
-            description: "Haz check-in privado utilizando la caja de seguridad"
+            description: "Haz check-in privado utilizando la caja de seguridad",
         },
         {
             title: "Excelente Ubicacion",
-            description: "condominio con una gran locación, ubicado a 1 cuadra de la playa."
+            description:
+                "condominio con una gran locación, ubicado a 1 cuadra de la playa.",
         },
     ],
-    about: "¡Apartamento a estrenar en Torre BNI, ubicado en el corazón de la Zona Dorada! Cerca de plazas comerciales, hospitales, campos de golf y la mejor playa al otro lado de la calle! Hermosas vistas al mar desde la azotea de la torre. Totalmente equipado, con aire acondicionado, lavadora-secadora, cocina completa con todos los utensilios de cocina, wifi rápido, TV de 65 pulgadas y más. Un espacio de estacionamiento, piscina en la azotea y gimnasio. El espacio Cuenta con 2 habitaciones, la principal con cama queen size y baño dentro de la habitación, la segunda tiene 2 camas individuales y baño al salir de la habitación. Acceso de invitado Cuando llegues a la torre habrá un vigilante que ya estará avisado de tu llegada, te dará acceso y de igual forma te apoyará con la entrega de llaves en caso de ser necesario.",
+    about:
+        "¡Apartamento a estrenar en Torre BNI, ubicado en el corazón de la Zona Dorada! Cerca de plazas comerciales, hospitales, campos de golf y la mejor playa al otro lado de la calle! Hermosas vistas al mar desde la azotea de la torre. Totalmente equipado, con aire acondicionado, lavadora-secadora, cocina completa con todos los utensilios de cocina, wifi rápido, TV de 65 pulgadas y más. Un espacio de estacionamiento, piscina en la azotea y gimnasio. El espacio Cuenta con 2 habitaciones, la principal con cama queen size y baño dentro de la habitación, la segunda tiene 2 camas individuales y baño al salir de la habitación. Acceso de invitado Cuando llegues a la torre habrá un vigilante que ya estará avisado de tu llegada, te dará acceso y de igual forma te apoyará con la entrega de llaves en caso de ser necesario.",
     amenities: [
         {
             url: "",
-            description: "3 Camas, 1 Matrimonial y 2 individuales"
+            description: "3 Camas, 1 Matrimonial y 2 individuales",
         },
         {
             url: "",
-            description: "Vista al mar"
+            description: "Vista al mar",
         },
         {
             url: "",
-            description: "Wifi"
+            description: "Wifi",
         },
         {
             url: "",
-            description: "Cocina Integral"
+            description: "Cocina Integral",
         },
     ],
     map: "https://goo.gl/maps/VyMW5x4JBtTgrU4XA",
     unAvailableDays: [],
     price: 2500,
     reviews: [{}],
-    rules: ["Check-In despues de las 3:00 PM", "Checkout antes de las 12:00 PM", "6 Invitados como maximo"]
-
-}
+    rules: [
+        "Check-In despues de las 3:00 PM",
+        "Checkout antes de las 12:00 PM",
+        "6 Invitados como maximo",
+    ],
+};
 
 export default function Apartment() {
     const router = useRouter();
     const data = router.query.apartment;
-    console.log(data)
+    console.log(data);
+
+    return (
+        <div className={styles.container}>
+            <Head>
+                <title>LosCabos</title>
+                <meta name="description" content="Generated by create next app" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <NavBar />
+            <main className=" w-full h-full bg-slate-200 pt-28 text-slate-800">
+                <ImagesContainer images={depaCaboA.photos} />
+                <div className="p-5">
+                    <h1 className="w-full text-center font-bold pb-5">{depaCaboA.title}</h1>
+                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                    {depaCaboA.highlights.map((item) => {
+                        return (
+                            <article className="p-5">
+                                <h2 className="font-bold">{item.title}</h2>
+                                <h3>{item.description}</h3>
+                            </article>
+                        );
+                    })}
+                </div>
+                <div className="p-5">
+                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                    <h1 className="w-full text-left font-bold p-5">Acerca de este alojamiento</h1>
+                    <p className="p-5 text-justify">{depaCaboA.description}</p>
+                    <p className="pl-5 pr-5 text-justify">{depaCaboA.about}</p>
+                </div>
+                <div className="p-5">
+                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                    <h1 className="w-full text-left font-bold p-5">Comodidades de este alojamiento</h1>
+                    {depaCaboA.amenities.map((item) => {
+                        return (
+                            <article className="p-5">
+                                <h1 className="p-5">{item.description}</h1>
+                            </article>
+                        );
+                    })}
+                </div>
+                <MapContainer />
+            </main>
+        </div>
+    );
 }
