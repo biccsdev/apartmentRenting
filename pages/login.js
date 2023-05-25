@@ -13,24 +13,55 @@ export default function Login() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <NavBar />
-            <main className=" w-full h-screen">
-                <div className="w-full h-1/2 bg-[url('/locations/losCabos.jpg')] bg-cover relative bg-center bg-no-repeat flex justify-center">
-                    <Link className='absolute z-10 text-slate-100 w-fit bg-orange-400 bg-opacity-90 border border-orange-500 p-4 top-36 font-bold rounded' href='/depasBaja'>Los Cabos, Baja California Sur</Link>
-                    <div className='bg-orange-400 w-full bg-opacity-20 backdrop-blur-sm rounded absolute -bottom-8 mx-auto z-10'><h1 className='p-4 text-center font-semibold'>Elige tu destino</h1></div>
+            <main className=" w-full h-fit pt-20 bg-slate-200">
+                <div class="container mx-auto py-8">
+                    <h1 class="text-2xl font-bold mb-6 text-center text-slate-800">Crea una cuenta</h1>
+                    <form class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Nombre</label>
+                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                                type="text" id="name" name="name" placeholder="Juan Sanchez"></input>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Correo</label>
+                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                                type="email" id="email" name="email" placeholder="usuario@ejemplo.com"></input>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Clave</label>
+                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                                type="password" id="password" name="password" placeholder="********"></input>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm-password">Confirmar Clave</label>
+                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                                type="password" id="confirm-password" name="confirm-password" placeholder="********"></input>
+                        </div>
+                        <button
+                            class="bg-orange-400 w-full hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow"
+                            type="submit">Registrarse</button>
+                    </form>
                 </div>
-                <div className="w-full h-1/2 bg-[url('/locations/mazatlan.jpg')] bg-cover bg-center bg-no-repeat flex justify-center">
-                    <Link className='absolute mt-28 z-10 text-slate-100 w-fit bg-orange-400 border border-orange-500 bg-opacity-90 p-4 font-bold rounded' href='/depasMaza'>Mazatlán, Sinaloa</Link>
+                <div class="container mx-auto py-8">
+                    <h1 class="text-2xl font-bold mb-6 text-center text-slate-800">Inicia Sesion</h1>
+                    <form class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Correo</label>
+                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                                type="email" id="email" name="email" placeholder="usuario@ejemplo.com"></input>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Clave</label>
+                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                                type="password" id="password" name="password" placeholder="********"></input>
+                        </div>
+                        <button
+                            class="w-full bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow"
+                            type="submit">Login</button>
+                    </form>
                 </div>
-                {/* <Link className='left-1/3 absolute z-10 text-slate-950 w-fit bg-slate-200 bg-opacity-20 backdrop-blur-sm p-4 top-20 font-bold' href='/depasBaja'>Los Cabos, Baja California Sur</Link>
-        <img className='w-full h-2/5 relative' src='/locations/losCabos.jpg' alt='photo of los cabos san lucas' />
-        <div className='bg-orange-400 w-fit border border-orange-700 rounded absolute left-1/3 z-10' style={{ marginTop: '-30px' }}><h1 className='p-4 text'>Elige tu destino</h1></div>
-        <Link className='left-1/3 absolute z-10 text-slate-950 w-fit bg-slate-200 bg-opacity-20 backdrop-blur-sm p-4 bottom-72 font-bold' href='/depasMaza'>Mazatlán, Sinaloa</Link>
-        <img className='w-full h-1/2' src='/locations/mazatlan.jpg' alt='photo of los cabos san lucas' /> */}
             </main>
 
-            {/* <footer className={styles.footer}>
-
-      </footer> */}
         </div>
     )
 }

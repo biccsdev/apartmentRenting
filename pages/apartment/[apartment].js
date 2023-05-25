@@ -4,6 +4,7 @@ import Head from "next/head";
 import NavBar from "../../components/navbar";
 import ImagesContainer from "../../components/cityApartments/imagesContainer";
 import MapContainer from "../../components/cityApartments/mapContainer";
+import BookingContainer from "../../components/cityApartments/bookingContainer";
 
 const depaCaboA = {
     _id: "fsadihw4k3hrj3",
@@ -58,8 +59,11 @@ const depaCaboA = {
             description: "Cocina Integral",
         },
     ],
-    map: "https://goo.gl/maps/VyMW5x4JBtTgrU4XA",
-    unAvailableDays: [],
+    coordinates: {
+        latitude: 25.806055,
+        longitude: -109.028983,
+    },
+    unAvailableDays: ["2023-05-21", "2023-05-22", "2023-05-23", "2023-05-24", "2023-05-25", "2023-05-26"],
     price: 2500,
     reviews: [{}],
     rules: [
@@ -107,14 +111,27 @@ export default function Apartment() {
                     <h1 className="w-full text-left font-bold p-5">Comodidades de este alojamiento</h1>
                     {depaCaboA.amenities.map((item) => {
                         return (
-                            <article className="p-5">
-                                <h1 className="p-5">{item.description}</h1>
+                            <article className="p-5 flex">
+                                <li className="p-5">{item.description}</li>
                             </article>
                         );
                     })}
                 </div>
-                <MapContainer />
-            </main>
-        </div>
+                <MapContainer coordinates={{ latitude: depaCaboA.coordinates.latitude, longitude: depaCaboA.coordinates.longitude }} />
+                <BookingContainer props={depaCaboA} />
+                <div className="p-5">
+                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                    <h1 className="w-full text-left font-bold p-5">Reglamento</h1>
+                    <ul className="list-disc p-5">
+                        {depaCaboA.rules.map((item) => {
+                            return (
+                                <li className="pb-5" key={item}>{item}</li>
+                            );
+                        })}
+                    </ul>
+
+                </div>
+            </main >
+        </div >
     );
 }
