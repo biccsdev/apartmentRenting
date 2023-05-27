@@ -76,7 +76,6 @@ const depaCaboA = {
 export default function Apartment() {
     const router = useRouter();
     const data = router.query.apartment;
-    console.log(data);
 
     return (
         <div className={styles.container}>

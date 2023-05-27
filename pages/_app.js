@@ -1,8 +1,41 @@
-import '../styles/globals.css'
-import 'tailwindcss/tailwind.css';
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
+
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import useAuth from "../hooks/useAuth";
+import { AuthProvider } from "../hooks/useAuth";
+import AuthRouteGuard from "../hooks/authRouteGuard";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  // const { user, authenticated, error, isAdmin } = useAuth();
+  // const router = useRouter();
+  const publicRoutes = [
+    "/",
+    "/depasBaja",
+    "/depasMaza",
+    "/login",
+    "/apartment",
+  ];
+  const privateRoutes = ["/user"];
+  const adminRoutes = ["/admin"];
+
+  // useEffect(() => {
+  //   if (!authenticated && privateRoutes.includes(router.pathname)) {
+  //     router.push("/login");
+  //   }
+  //   if (isAdmin && adminRoutes.includes(router.pathname)) {
+  //     router.push("/unauthorized");
+  //   }
+  // }, [authenticated, router.pathname]);
+
+  return (
+    <AuthProvider>
+      <AuthRouteGuard publicRoutes={publicRoutes} privateRoutes={privateRoutes} adminRoutes={adminRoutes}>
+        <Component {...pageProps} />
+      </AuthRouteGuard>
+    </AuthProvider>
+  );
 }
 
-export default MyApp
+export default MyApp;

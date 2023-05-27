@@ -4,6 +4,9 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import NavBar from '../components/navbar'
 import ApartmentCard from '../components/cityApartments/cityApartmentCard';
+import { useAuthContext } from '../hooks/useAuth';
+import { getAllApartments } from './api/endpoints';
+import { useEffect, useState } from 'react';
 
 const depaCaboA = {
     _id: "fsadihw4k3hrj3",
@@ -100,6 +103,23 @@ const depaCaboB = {
 }
 
 export default function DepasBaja() {
+    const [apartmentData, setApartmentData] = useState(null);
+    const { user, authenticated, error, register, login, logout, isAdmin } = useAuthContext();
+    // (async () => {
+    //     const apartments = await getAllApartments(user.access_token);
+    //     console.log(apartments);
+    //     setApartmentData(apartments);
+    // })();
+
+    useEffect(() => {
+        (async () => {
+            const apartments = await getAllApartments(user.access_token);
+            console.log(apartments);
+            setApartmentData(apartments);
+        })();
+    }, []);
+
+
     return (
         <div className={styles.container}>
             <Head>
@@ -109,8 +129,13 @@ export default function DepasBaja() {
             </Head>
             <NavBar />
             <main className=" w-full h-full bg-slate-200">
-                <ApartmentCard data={depaCaboA} />
-                <ApartmentCard data={depaCaboB} />
+                {apartmentData.map((item) => {
+                    return (
+                        <ApartmentCard data={item} />
+                    );
+                })}
+                {/* <ApartmentCard data={depaCaboA} />
+                <ApartmentCard data={depaCaboB} /> */}
             </main>
         </div>
     )
