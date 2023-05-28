@@ -20,14 +20,21 @@ export const checkUserRole = () => {
     return api.get('/user/role');
 };
 
-export const createBooking = (bookingData, token) => {
-    const header = { 'Authorization': `Bearer ${token}` };
-    return api.post('/booking', bookingData, { headers: header });
+export const createBooking = async (bookingData, token) => {
+    const header = { 'Authorization': `Bearer ${token}`, 'Content-Type': `multipart/form-data` };
+    const response = await api.post('/booking', bookingData, { headers: header });
+    return response.data;
 }
 
 export const getAllBookings = (token) => {
     const header = { 'Authorization': `Bearer ${token}` };
     return api.get('/booking', header);
+}
+
+export const getAllUserBookings = async (userId, token) => {
+    const header = { 'Authorization': `Bearer ${token}` };
+    const response = await api.get('/booking', { params: userId, headers: header });
+    return response.data;
 }
 
 export const getBookingById = (bookingId, token) => {
@@ -40,9 +47,10 @@ export const reviewBooking = (bookingId, token) => {
     return api.patch(`/booking/review/${bookingId}`, header);
 }
 
-export const getApartmentById = (apartmentId, token) => {
+export const getApartmentById = async (apartmentId, token) => {
     const header = { 'Authorization': `Bearer ${token}` };
-    return api.get(`/apartment/${apartmentId}`, header);
+    const response = await api.get(`/apartment/${apartmentId}`, { headers: header });
+    return response.data;
 }
 
 export const getAllApartments = async (token) => {

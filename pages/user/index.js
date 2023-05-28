@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useAuthContext } from "../../hooks/useAuth";
 import NavBar from "../../components/navbar";
+import { getAllUserBookings } from "../api/endpoints";
 
 export default function ProfileComponent() {
     const { user, authenticated, error } = useAuthContext();
@@ -11,6 +12,42 @@ export default function ProfileComponent() {
     const [showCode, setShowCode] = useState(false);
     const [activeBooking, setActiveBooking] = useState(null);
     const [pastBooking, setPastBooking] = useState(null);
+    const [pendingBooking, setPendingBooking] = useState(null);
+    const currentDate = new Date();
+
+    useEffect(() => {
+        (async () => {
+            const past = [];
+            const pending = [];
+            const active = [];
+            const bookings = await getAllUserBookings({ userId: user.user._id }, user.access_token);
+            bookings.map((item) => {
+                const leaveDate = new Date(item.leaveDate);
+
+                if (leaveDate < currentDate) {
+                    past.push(item);
+                }
+                if (item.status === 'PENDING') {
+                    pending.push(item)
+                }
+                if (item.status === 'ACCEPTED') {
+                    active.push(item)
+                }
+
+            })
+            if (active[0]) {
+                setActiveBooking(active);
+            }
+            if (past[0]) {
+                setPastBooking(past);
+            }
+            if (pending[0]) {
+                setPendingBooking(pending);
+
+            }
+
+        })()
+    });
 
     const handleShowCode = () => {
         setShowCode(!showCode);
@@ -31,7 +68,7 @@ export default function ProfileComponent() {
         return (
             <>
                 <NavBar></NavBar>
-                <div className="max-w-md mx-auto bg-white rounded p-5 shadow text-slate-800 pt-28 h-screen">
+                <div className="max-w-md mx-auto bg-white rounded p-5 shadow text-slate-800 pt-28 h-fit">
                     <h1 className="text-2xl font-bold mb-4 pl-5">Perfil</h1>
                     <div className="w-4/5 m-auto h-px bg-gray-500"></div>
 
@@ -74,6 +111,25 @@ export default function ProfileComponent() {
                                     Show Code
                                 </button>
                             </div>
+                        )}
+                    </div>
+                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                    <div className="p-5">
+                        <h1 className="text-xl font-bold mb-2 pb-5">Rentas Pendientes</h1>
+                        {!pendingBooking && (
+                            <div className=" bg-gray-100 rounded p-5">
+                                <h1 className="text-center font-bold text-lg">No tienes rentas pendientes</h1>
+                            </div>
+                        )}
+                        {pendingBooking && (
+                            pendingBooking.map((item) => {
+                                return (<>
+                                    <div className="p-4 bg-gray-100 rounded">
+                                        <h1 className="text-lg font-bold mb-2">{item.title}</h1>
+                                        <h3 className="text-gray-600">{item.arriveDate} - {item.leaveDate}</h3>
+                                    </div>
+                                </>)
+                            })
                         )}
                     </div>
                     <div className="w-4/5 m-auto h-px bg-gray-500"></div>
