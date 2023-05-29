@@ -26,9 +26,10 @@ export const createBooking = async (bookingData, token) => {
     return response.data;
 }
 
-export const getAllBookings = (token) => {
+export const getAllBookings = async (token) => {
     const header = { 'Authorization': `Bearer ${token}` };
-    return api.get('/booking', header);
+    const response = await api.get('/booking', { headers: header });
+    return response.data;
 }
 
 export const getAllUserBookings = async (userId, token) => {
@@ -42,14 +43,23 @@ export const getBookingById = (bookingId, token) => {
     return api.get(`/booking/${bookingId}`, bookingId, header);
 }
 
-export const reviewBooking = (bookingId, token) => {
+export const reviewBooking = async (bookingId, status, token) => {
     const header = { 'Authorization': `Bearer ${token}` };
-    return api.patch(`/booking/review/${bookingId}`, header);
+    const body = { 'status': status }
+    const response = await api.patch(`/booking/review/${bookingId}`, body, { headers: header });
+    return response.data;
 }
 
 export const getApartmentById = async (apartmentId, token) => {
     const header = { 'Authorization': `Bearer ${token}` };
     const response = await api.get(`/apartment/${apartmentId}`, { headers: header });
+    return response.data;
+}
+
+export const getFileById = async (imageId, token) => {
+    const header = { 'Authorization': `Bearer ${token}` };
+    const response = await api.get(`/image/${imageId}`, { headers: header });
+    console.log(response)
     return response.data;
 }
 

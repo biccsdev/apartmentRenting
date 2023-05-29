@@ -7,7 +7,10 @@ import { useAuthContext } from '../hooks/useAuth';
 
 function NavBar() {
     const { user, authenticated, error, register, login, isAdmin } = useAuthContext();
-    const router = useRouter();
+    var role = null;
+    if (user) {
+        role = user.user.role;
+    }
 
     const [logged, setLogged] = useState(null);
     const [userId, setUserId] = useState(null);
@@ -26,8 +29,11 @@ function NavBar() {
                         Login
                     </Link>
                 )}
-                {user && (
+                {(role === "CLIENT") && (
                     <Link className="bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" href={`/user`}>Perfil</Link>
+                )}
+                {(role === "ADMIN") && (
+                    <Link className="bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" href={`/admin`}>Perfil</Link>
                 )}
             </div>
         </nav>

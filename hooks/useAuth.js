@@ -57,7 +57,7 @@ const useAuth = () => {
     };
 
     const isAdmin = () => {
-        return user.role === 'ADMIN';
+        return user.user.role === 'ADMIN';
     };
 
     return { user, authenticated, error, register, login, logout, isAdmin };

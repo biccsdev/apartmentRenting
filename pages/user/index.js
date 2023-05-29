@@ -96,21 +96,26 @@ export default function ProfileComponent() {
                             </div>
                         )}
                         {activeBooking && (
-                            <div className=" bg-gray-100 rounded p-5">
-                                <h1 className="text-lg font-bold mb-2">Clave Caja de Llaves</h1>
-                                <p className="text-gray-600 mb-4">Accede a las llaves de la puerta principal</p>
-                                {showCode ? (
-                                    <p className="text-2xl font-bold">55555</p>
-                                ) : (
-                                    <p className="text-2xl font-bold">####</p>
-                                )}
-                                <button
-                                    className="mt-2 bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow"
-                                    onClick={handleShowCode}
-                                >
-                                    Show Code
-                                </button>
-                            </div>
+                            activeBooking.map((item) => {
+                                return (
+                                    <div className=" bg-gray-100 rounded p-5">
+                                        <h1 className="text-lg font-bold mb-2">Clave Caja de Llaves</h1>
+                                        <p className="text-gray-600 mb-4">Accede a las llaves de la puerta principal</p>
+                                        <p className="text-gray-600 font-bold mb-4">{item.apartment.title}</p>
+                                        {showCode ? (
+                                            <p className="text-2xl font-bold">{item.apartment.keyBoxPassword}</p>
+                                        ) : (
+                                            <p className="text-2xl font-bold">####</p>
+                                        )}
+                                        <button
+                                            className="mt-2 bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow"
+                                            onClick={handleShowCode}
+                                        >
+                                            Show Code
+                                        </button>
+                                    </div>
+                                )
+                            })
                         )}
                     </div>
                     <div className="w-4/5 m-auto h-px bg-gray-500"></div>
@@ -124,10 +129,12 @@ export default function ProfileComponent() {
                         {pendingBooking && (
                             pendingBooking.map((item) => {
                                 return (<>
-                                    <div className="p-4 bg-gray-100 rounded">
-                                        <h1 className="text-lg font-bold mb-2">{item.title}</h1>
-                                        <h3 className="text-gray-600">{item.arriveDate} - {item.leaveDate}</h3>
+                                    <div className="p-4 bg-gray-100 rounded text-left">
+                                        <h1 className="text-lg font-bold mb-2">{item.apartment.title}</h1>
+                                        <h3 className="text-gray-600 ">{new Date(item.arriveDate).toLocaleDateString()} - {new Date(item.leaveDate).toLocaleDateString()}</h3>
                                     </div>
+                                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+
                                 </>)
                             })
                         )}

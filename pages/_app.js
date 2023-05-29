@@ -20,15 +20,6 @@ function MyApp({ Component, pageProps }) {
   const privateRoutes = ["/user"];
   const adminRoutes = ["/admin"];
 
-  // useEffect(() => {
-  //   if (!authenticated && privateRoutes.includes(router.pathname)) {
-  //     router.push("/login");
-  //   }
-  //   if (isAdmin && adminRoutes.includes(router.pathname)) {
-  //     router.push("/unauthorized");
-  //   }
-  // }, [authenticated, router.pathname]);
-
   return (
     <AuthProvider>
       <AuthRouteGuard publicRoutes={publicRoutes} privateRoutes={privateRoutes} adminRoutes={adminRoutes}>
