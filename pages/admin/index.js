@@ -5,11 +5,15 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAllApartments, getAllBookings, getFileById, reviewBooking } from "../api/endpoints";
 import Link from "next/link";
+import Modal from "react-modal";
+import Image from "next/image";
 
 export default function Admin() {
     const { user, authenticated, error } = useAuthContext();
     const [departments, setDepartments] = useState(null);
     const [pendingBookings, setPendingBookings] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const router = useRouter();
 
     if (!authenticated || !user) {
@@ -39,9 +43,17 @@ export default function Admin() {
     }
 
     const handlePaymentProof = async (item) => {
-        const proof = await getFileById(item._id, user.access_token);
-        console.log(proof);
+        const response = await getFileById(item.paymentProof, user.access_token);
+        const bufferData = response.data.data;
+        const base64String = Buffer.from(bufferData).toString("base64");
+        setSelectedImage(`data:${response.contentType};base64,${base64String}`);
+        setIsModalOpen(true);
     }
+
+    const closeModal = () => {
+        setSelectedImage(null);
+        setIsModalOpen(false);
+    };
 
     if (user) {
         if (user.user.role !== "ADMIN") {
@@ -102,6 +114,12 @@ export default function Admin() {
                                         {item.leaveDate.slice(0, 10)}
                                     </h2>
                                     <h3>${item.totalCost} MXN</h3>
+                                    {selectedImage && (
+                                        <Modal isOpen={isModalOpen} onRequestClose={closeModal} className="w-fit pt-56 block m-auto">
+                                            <img src={selectedImage} alt="Payment Proof" />
+                                            <button className="bg-orange-400 w-fit mt-2 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" onClick={closeModal}>Cerrar</button>
+                                        </Modal>
+                                    )}
                                     <button onClick={() => handlePaymentProof(item)} className="mt-2 block m-auto bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow">
                                         Ver comprobante de pago
                                     </button>
