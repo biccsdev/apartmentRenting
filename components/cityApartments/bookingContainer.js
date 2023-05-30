@@ -192,19 +192,20 @@ const BookingContainer = ({ props }) => {
     };
 
     const isDateBooked = (arriveDate, leaveDate) => {
-        const datesBetween = getDatesBetween(arriveDate, leaveDate);
+        const datesBetween = getNightsBetween(arriveDate, leaveDate);
         return datesBetween.some(date => bookedDates.includes(date));
     };
 
-    const getDatesBetween = (start, end) => {
+    const getNightsBetween = (start, end) => {
         const dates = [];
         let currentDate = new Date(start);
 
         while (currentDate <= end) {
-            dates.push(currentDate.toISOString().split("T")[0]);
-            currentDate.setDate(currentDate.getDate() + 1);
+            if (currentDate !== new Date(start)) {
+                dates.push(currentDate.toISOString().split("T")[0]);
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
         }
-
         return dates;
     };
 
@@ -347,8 +348,8 @@ const BookingContainer = ({ props }) => {
                         <h1 className="w-4/5 text-left font-bold p-5">Detalles de costo</h1>
                         <p className="p-5">
                             <span className="font-bold">{props.pricePerNight}</span> /noche x{" "}
-                            <span className="font-bold">{getDatesBetween(startDate, endDate).length}</span> día(s) = <span className="font-bold">${((props.pricePerNight)
-                                * (getDatesBetween(startDate, endDate).length))}</span> MXN
+                            <span className="font-bold">{(getNightsBetween(startDate, endDate).length) - 1}</span> noche(s) = <span className="font-bold">${((props.pricePerNight)
+                                * ((getNightsBetween(startDate, endDate).length) - 1))}</span> MXN
                         </p>
                     </div>
                     <div className="w-4/5 m-auto h-px bg-gray-500"></div>

@@ -176,8 +176,13 @@ export default function Apartment() {
 
     useEffect(() => {
         (async () => {
-            const apartment = await getApartmentById(data, user.access_token);
-            setApartmentData(apartment);
+            if (user) {
+                const apartment = await getApartmentById(data, user.access_token);
+                setApartmentData(apartment);
+            }
+            if (!authenticated) {
+                router.push('/login');
+            }
         })();
     }, []);
 
@@ -189,7 +194,7 @@ export default function Apartment() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <NavBar />
-            <main className=" w-full h-full bg-slate-200 pt-28 text-slate-800">
+            <main className=" w-full h-full bg-slate-200 pt-28 text-slate-800 md:pt-32 md:p-5 xl:p-44">
                 {!apartmentData && (
                     <div className="font-bold pt-20 text-center h-screen">
                         <h1>LOADING...</h1>
@@ -209,7 +214,7 @@ export default function Apartment() {
                         {(apartmentData.location === "LosCabosB") && (
                             <ImagesContainer images={depaCaboB} />
                         )}
-                        <div className="p-5">
+                        <div className="p-5 xl:p-20">
                             <h1 className="w-full text-center font-bold pb-5">
                                 {apartmentData.title}
                             </h1>
@@ -223,7 +228,7 @@ export default function Apartment() {
                                 );
                             })}
                         </div>
-                        <div className="p-5">
+                        <div className="p-5 xl:p-20">
                             <div className="w-4/5 m-auto h-px bg-gray-500"></div>
                             <h1 className="w-full text-left font-bold p-5">
                                 Acerca de este alojamiento
@@ -231,7 +236,7 @@ export default function Apartment() {
                             <p className="p-5 text-justify">{apartmentData.description}</p>
                             <p className="pl-5 pr-5 text-justify">{apartmentData.about}</p>
                         </div>
-                        <div className="p-5">
+                        <div className="p-5 xl:p-20">
                             <div className="w-4/5 m-auto h-px bg-gray-500"></div>
                             <h1 className="w-full text-left font-bold p-5">
                                 Comodidades de este alojamiento
@@ -245,13 +250,10 @@ export default function Apartment() {
                             })}
                         </div>
                         <MapContainer
-                            coordinates={{
-                                latitude: apartmentData.map.latitude,
-                                longitude: apartmentData.map.longitude,
-                            }}
+                            location={apartmentData.location}
                         />
                         <BookingContainer props={apartmentData} />
-                        <div className="p-5">
+                        <div className="p-5 xl:p-20">
                             <div className="w-4/5 m-auto h-px bg-gray-500"></div>
                             <h1 className="w-full text-left font-bold p-5">Reglamento</h1>
                             <ul className="list-disc p-5">

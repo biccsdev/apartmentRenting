@@ -12,12 +12,9 @@ function MyApp({ Component, pageProps }) {
   // const router = useRouter();
   const publicRoutes = [
     "/",
-    "/depasBaja",
-    "/depasMaza",
     "/login",
-    "/apartment",
   ];
-  const privateRoutes = ["/user"];
+  const privateRoutes = ["/user", "/depasBaja", "/depasMaza", "/apartment"];
   const adminRoutes = ["/admin"];
 
   return (

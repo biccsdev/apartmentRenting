@@ -42,12 +42,17 @@ export default function Login() {
             email: emailLogin.value,
             password: passwordLogin.value,
         };
+        const res = login(credentials).then((result) => {
+            if (result) {
+                alert('Ha Iniciado Sesion Correctamente!');
+                router.push('/');
+            }
+            if (result === undefined) {
+                alert('Datos incorrectos, intente denuevo.')
 
-        const res = login(credentials);
-        if (res) {
-            alert('Ha Iniciado Sesion Correctamente!');
-            router.push('/');
-        }
+            }
+        });
+
     };
     return (
         <div className={styles.container}>

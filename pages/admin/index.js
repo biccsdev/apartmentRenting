@@ -40,6 +40,7 @@ export default function Admin() {
     const handleReview = async (id, status) => {
         const review = await reviewBooking(id, status, user.access_token);
         alert(`Se actualizo el estatus a ${status}  exitosamente!`)
+        router.push('/admin')
     }
 
     const handlePaymentProof = async (item) => {
@@ -116,7 +117,7 @@ export default function Admin() {
                                     <h3>${item.totalCost} MXN</h3>
                                     {selectedImage && (
                                         <Modal isOpen={isModalOpen} onRequestClose={closeModal} className="w-fit pt-56 block m-auto">
-                                            <img src={selectedImage} alt="Payment Proof" />
+                                            <img className="h-96 w-96" src={selectedImage} alt="Payment Proof" />
                                             <button className="bg-orange-400 w-fit mt-2 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" onClick={closeModal}>Cerrar</button>
                                         </Modal>
                                     )}

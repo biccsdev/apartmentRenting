@@ -48,7 +48,6 @@ const useAuth = () => {
 
     const logout = async () => {
         try {
-            await logoutUser();
             setUser(null);
             setAuthenticated(false);
         } catch (error) {

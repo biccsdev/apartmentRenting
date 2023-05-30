@@ -14,11 +14,11 @@ export default function Home() {
       </Head>
       <NavBar />
       <main className=" w-full h-screen">
-        <div className="w-full h-1/2 bg-[url('/locations/losCabos.jpg')] bg-cover relative bg-center bg-no-repeat flex justify-center">
+        <div className="w-full h-1/2 bg-[url('/teasers/caboTeaser.gif')] bg-cover relative bg-center bg-no-repeat flex justify-center">
           <Link className='absolute z-10 text-slate-100 w-fit bg-orange-400 bg-opacity-90 border border-orange-500 p-4 top-36 font-bold rounded' href='/depasBaja'>Los Cabos, Baja California Sur</Link>
-          <div className='bg-orange-400 w-full bg-opacity-20 backdrop-blur-sm rounded absolute -bottom-8 mx-auto z-10'><h1 className='p-4 text-center font-semibold'>Elige tu destino</h1></div>
+          <div className=' w-full bg-opacity-20 backdrop-blur-sm rounded absolute -bottom-8 mx-auto z-10 md:text-2xl'><h1 className='p-4 text-center font-semibold'>Elija su proximo destino!</h1></div>
         </div>
-        <div className="w-full h-1/2 bg-[url('/locations/mazatlan.jpg')] bg-cover bg-center bg-no-repeat flex justify-center">
+        <div className="w-full h-1/2 bg-[url('/teasers/mazaTeaser.gif')] bg-cover bg-center bg-no-repeat flex justify-center">
           <Link className='absolute mt-28 z-10 text-slate-100 w-fit bg-orange-400 border border-orange-500 bg-opacity-90 p-4 font-bold rounded' href='/depasMaza'>Mazatlán, Sinaloa</Link>
         </div>
       </main>

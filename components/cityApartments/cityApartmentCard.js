@@ -6,7 +6,7 @@ function ApartmentCard(data) {
         <div className='bg-transparent pt-10 p-8'>
             {(location === "LosCabosA") && (
                 <div className='rounded p-3 shadow-lg overflow-hidden'>
-                    <img src={'/apartmentPictures/losCabos/A/highlight.png'} alt='view of los cabos' />
+                    <img className='' src={'/apartmentPictures/losCabos/A/highlight.png'} alt='view of los cabos' />
                 </div>
             )}
             {(location === "LosCabosB") && (

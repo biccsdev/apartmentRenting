@@ -17,35 +17,36 @@ export default function ProfileComponent() {
 
     useEffect(() => {
         (async () => {
-            const past = [];
-            const pending = [];
-            const active = [];
-            const bookings = await getAllUserBookings({ userId: user.user._id }, user.access_token);
-            bookings.map((item) => {
-                const leaveDate = new Date(item.leaveDate);
+            if (user) {
+                const past = [];
+                const pending = [];
+                const active = [];
+                const bookings = await getAllUserBookings({ userId: user.user._id }, user.access_token);
+                bookings.map((item) => {
+                    const leaveDate = new Date(item.leaveDate);
 
-                if (leaveDate < currentDate) {
-                    past.push(item);
+                    if (leaveDate < currentDate) {
+                        past.push(item);
+                    }
+                    if (item.status === 'PENDING') {
+                        pending.push(item)
+                    }
+                    if (item.status === 'ACCEPTED') {
+                        active.push(item)
+                    }
+
+                })
+                if (active[0]) {
+                    setActiveBooking(active);
                 }
-                if (item.status === 'PENDING') {
-                    pending.push(item)
+                if (past[0]) {
+                    setPastBooking(past);
                 }
-                if (item.status === 'ACCEPTED') {
-                    active.push(item)
+                if (pending[0]) {
+                    setPendingBooking(pending);
+
                 }
-
-            })
-            if (active[0]) {
-                setActiveBooking(active);
             }
-            if (past[0]) {
-                setPastBooking(past);
-            }
-            if (pending[0]) {
-                setPendingBooking(pending);
-
-            }
-
         })()
     });
 
@@ -66,9 +67,9 @@ export default function ProfileComponent() {
 
     if (authenticated) {
         return (
-            <>
+            <div className="bg-slate-200">
                 <NavBar></NavBar>
-                <div className="max-w-md mx-auto bg-white rounded p-5 shadow text-slate-800 pt-28 h-fit">
+                <div className="max-w-md mx-auto bg-slate-200 rounded p-5 shadow text-slate-800 pt-28 h-fit">
                     <h1 className="text-2xl font-bold mb-4 pl-5">Perfil</h1>
                     <div className="w-4/5 m-auto h-px bg-gray-500"></div>
 
@@ -154,7 +155,7 @@ export default function ProfileComponent() {
                             </div>
                         )}
                     </div>
-                </div></>
+                </div></div>
         );
     }
 
