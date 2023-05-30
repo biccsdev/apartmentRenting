@@ -25,7 +25,7 @@ export default function Details() {
                 const books = await getAllBookings(user.access_token);
                 setApartmentData(apartment);
                 books.map((item) => {
-                    if (item.apartment._id === apartment._id) {
+                    if ((item.apartment._id === apartment._id) && item.status === "ACCEPTED") {
                         bkHelp.push(item);
                     }
                 });

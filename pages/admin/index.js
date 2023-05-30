@@ -14,6 +14,7 @@ export default function Admin() {
     const [pendingBookings, setPendingBookings] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [reviewed, setReviewed] = useState(false);
     const router = useRouter();
 
     if (!authenticated || !user) {
@@ -39,8 +40,12 @@ export default function Admin() {
 
     const handleReview = async (id, status) => {
         const review = await reviewBooking(id, status, user.access_token);
-        alert(`Se actualizo el estatus a ${status}  exitosamente!`)
-        router.push('/admin')
+        setReviewed(!reviewed);
+        alert(`Se actualizo el estatus a ${status}  exitosamente!`);
+
+        setPendingBookings(pendingBookings => {
+            return pendingBookings.filter(item => item._id !== id);
+        });
     }
 
     const handlePaymentProof = async (item) => {
@@ -110,6 +115,7 @@ export default function Admin() {
                                 <div className="m-5 p-5 bg-slate-300 rounded text-center">
                                     <h1 className="font-bold">{item.apartment.title}</h1>
                                     <h2>{item.user.name}</h2>
+                                    <h2>+{item.user.phoneNumber}</h2>
                                     <h2>
                                         {item.arriveDate.slice(0, 10)} -{" "}
                                         {item.leaveDate.slice(0, 10)}
