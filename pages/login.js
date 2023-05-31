@@ -49,7 +49,6 @@ export default function Login() {
             }
             if (result === undefined) {
                 alert('Datos incorrectos, intente denuevo.')
-
             }
         });
 

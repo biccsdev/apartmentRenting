@@ -5,7 +5,7 @@ import NavBar from "../../components/navbar";
 import ImagesContainer from "../../components/cityApartments/imagesContainer";
 import MapContainer from "../../components/cityApartments/mapContainer";
 import BookingContainer from "../../components/cityApartments/bookingContainer";
-import { getApartmentById } from "../api/endpoints";
+import { createReview, findReviewByApartmentId, getAllUserBookings, getApartmentById } from "../api/endpoints";
 import { useAuthContext } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 
@@ -173,18 +173,49 @@ export default function Apartment() {
         useAuthContext();
     const router = useRouter();
     const data = router.query.apartment;
+    const [reviews, setReviews] = useState(null);
+    const [hasRented, setHasRented] = useState(false);
 
     useEffect(() => {
         (async () => {
             if (user) {
                 const apartment = await getApartmentById(data, user.access_token);
+                const bookings = await getAllUserBookings(user._id, user.access_token);
+                bookings.map((item) => {
+                    if (item._apartment === apartment._id) {
+                        setHasRented(true);
+                    }
+                })
                 setApartmentData(apartment);
+                const reviews = await findReviewByApartmentId(apartment._id, user.access_token);
+                if (reviews.length > 0) {
+                    setReviews(reviews);
+                }
             }
             if (!authenticated) {
                 router.push('/login');
             }
         })();
     }, []);
+
+    const [inputValue, setInputValue] = useState('');
+
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log('Form submitted with value:', inputValue);
+        const createReviewDto = {
+            _user: user.user._id,
+            _apartment: apartmentData._id,
+            comment: inputValue
+        }
+        console.log(createReviewDto)
+        const review = await createReview(createReviewDto, user.access_token);
+        // Add your logic for form submission here
+    };
 
     return (
         <div className={styles.container}>
@@ -253,6 +284,7 @@ export default function Apartment() {
                             location={apartmentData.location}
                         />
                         <BookingContainer props={apartmentData} />
+
                         <div className="p-5 xl:p-20">
                             <div className="w-4/5 m-auto h-px bg-gray-500"></div>
                             <h1 className="w-full text-left font-bold p-5">Reglamento</h1>
@@ -265,6 +297,46 @@ export default function Apartment() {
                                     );
                                 })}
                             </ul>
+                        </div>
+                        <div className="p-5 ">
+                            <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                            {hasRented && (
+                                <div>
+                                    <h1 className="w-full text-left font-bold p-5">Crea una reseña</h1>
+                                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                                    <form className="flex justify-around p-5" onSubmit={handleSubmit}>
+                                        <input
+                                            className="rounded text-slate-200"
+                                            type="text"
+                                            value={inputValue}
+                                            onChange={handleInputChange}
+                                            placeholder=" Deja un comentario..."
+                                        />
+                                        <button className="bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" type="submit">Enviar</button>
+                                    </form>
+                                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+
+                                </div>
+                            )}
+                            <h1 className="w-full text-left font-bold p-5">Reseñas</h1>
+                            <div className="p-5">
+                                {reviews && (
+                                    reviews.map((item) => {
+                                        return (
+                                            <div className="pb-5 bg-slate-300 p-5 rounded" key={item}>
+                                                <h1 className="font-bold">{item.creator}</h1>
+                                                <h1>{item.comment}</h1>
+                                                <h1 className="font-bold">{new Date(item.createdAt).toISOString().split("T")[0]}</h1>
+                                            </div>
+                                        );
+                                    })
+                                )}
+                                {!reviews && (
+                                    <div>
+                                        <h1 className="w-full text-center font-bold p-5">No hay reseñas por el momento.</h1>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </>
                 )}
