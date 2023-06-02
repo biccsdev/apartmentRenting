@@ -6,6 +6,9 @@ import NavBar from '../components/navbar'
 import useAuth from '../hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useAuthContext } from '../hooks/useAuth';
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+
 
 export default function Login() {
     const { user, authenticated, error, register, login, isAdmin } = useAuthContext();
@@ -20,18 +23,23 @@ export default function Login() {
             return;
         }
 
+        const numWSpaces = phone.value.split("+");
+        const num = numWSpaces[1].split(" ").join("");
         const userData = {
             name: name.value,
             password: password.value,
             repeatPassword: confirmPassword.value,
             email: email.value,
-            phoneNumber: phone.value
+            phoneNumber: num
         };
 
         const res = register(userData);
-        if (res) {
-            alert('Usuario Registrado correctamente!, Inicie Sesion.');
-        }
+        res.then((response) => {
+            if (!response) { alert("El correo ya esta en uso, utiliza uno distinto.") } else {
+                alert('Usuario Registrado correctamente!, Inicie Sesion.');
+            }
+        })
+
     };
 
     const handleLogin = (event) => {
@@ -75,10 +83,11 @@ export default function Login() {
                             <input className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                                 type="email" id="email" name="email" placeholder="usuario@ejemplo.com" required={true}></input>
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-4 text-slate-800">
                             <label className="block text-gray-700 text-sm font-bold mb-2" for="email">Telefono</label>
-                            <input className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                                type="text" id="phone" name="phone" placeholder="526681334394" required={true}></input>
+                            <PhoneInput country={'mx'} placeholder='6681663295' inputProps={{ required: true, name: 'phone' }} />
+                            {/* <input className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                                type="text" id="phone" name="phone" placeholder="526681334394" required={true}></input> */}
                         </div>
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" for="password">Clave</label>

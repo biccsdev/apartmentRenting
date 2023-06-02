@@ -182,7 +182,7 @@ export default function Apartment() {
                 const apartment = await getApartmentById(data, user.access_token);
                 const bookings = await getAllUserBookings(user._id, user.access_token);
                 bookings.map((item) => {
-                    if (item._apartment === apartment._id) {
+                    if (item.user.name === user.user.name) {
                         setHasRented(true);
                     }
                 })
@@ -206,15 +206,12 @@ export default function Apartment() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Form submitted with value:', inputValue);
         const createReviewDto = {
             _user: user.user._id,
             _apartment: apartmentData._id,
             comment: inputValue
         }
-        console.log(createReviewDto)
         const review = await createReview(createReviewDto, user.access_token);
-        // Add your logic for form submission here
     };
 
     return (
