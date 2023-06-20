@@ -4,6 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createBooking } from "../../pages/api/endpoints";
 import { useAuthContext } from "../../hooks/useAuth";
+import Link from 'next/link';
+
 
 
 const depaCaboA = [
@@ -312,7 +314,16 @@ const BookingContainer = ({ props }) => {
                     </div>
                 </div>
             )}
-            {bookingStarted && (
+            {(bookingStarted && !user) && (
+                <div className="flex flex-wrap items-center p-5">
+                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                    <h1 className="w-4/5 text-left font-bold p-5">Debe de iniciar sesion antes de continuar...</h1>
+                    <Link className="bg-orange-400  hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" href="/login">
+                        Iniciar Sesion
+                    </Link>
+                </div>
+            )}
+            {(bookingStarted && user) && (
                 <div>
                     <div className="w-4/5 m-auto h-px bg-gray-500"></div>
                     <div className="p-5 flex items-center">

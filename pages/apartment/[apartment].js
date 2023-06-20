@@ -5,7 +5,7 @@ import NavBar from "../../components/navbar";
 import ImagesContainer from "../../components/cityApartments/imagesContainer";
 import MapContainer from "../../components/cityApartments/mapContainer";
 import BookingContainer from "../../components/cityApartments/bookingContainer";
-import { createReview, findReviewByApartmentId, getAllUserBookings, getApartmentById } from "../api/endpoints";
+import { createReview, findReviewByApartmentId, getAllUserBookings, getApartmentById, getAllApartmentsUnlocked } from "../api/endpoints";
 import { useAuthContext } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 
@@ -178,25 +178,33 @@ export default function Apartment() {
 
     useEffect(() => {
         (async () => {
+            // if (user) {
+            const apartment = await getAllApartmentsUnlocked();
+            apartment.map((item) => {
+                if (item._id == data) {
+                    setApartmentData(item)
+                }
+            })
             if (user) {
-                const apartment = await getApartmentById(data, user.access_token);
                 const bookings = await getAllUserBookings(user._id, user.access_token);
                 bookings.map((item) => {
                     if (item.user.name === user.user.name) {
                         setHasRented(true);
                     }
                 })
-                setApartmentData(apartment);
-                const reviews = await findReviewByApartmentId(apartment._id, user.access_token);
-                if (reviews.length > 0) {
-                    setReviews(reviews);
-                }
             }
-            if (!authenticated) {
-                router.push('/login');
+            // setApartmentData(apartment);
+            // const reviews = await findReviewByApartmentId(apartment._id, user.access_token);
+            const reviews = await findReviewByApartmentId(apartment._id);
+            if (reviews.length > 0) {
+                setReviews(reviews);
             }
+            // }
+            // if (!authenticated) {
+            //     router.push('/login');
+            // }
         })();
-    }, []);
+    });
 
     const [inputValue, setInputValue] = useState('');
 

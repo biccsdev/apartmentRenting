@@ -6,7 +6,7 @@ import NavBar from '../components/navbar'
 import ApartmentCard from '../components/cityApartments/cityApartmentCard';
 import { useAuthContext } from '../hooks/useAuth';
 import { useEffect, useState } from 'react';
-import { getAllApartments } from './api/endpoints';
+import { getAllApartmentsUnlocked } from './api/endpoints';
 
 
 export default function DepasMaza() {
@@ -15,10 +15,8 @@ export default function DepasMaza() {
 
     useEffect(() => {
         (async () => {
-            if (user) {
-                const apartments = await getAllApartments(user.access_token);
-                setApartmentData(apartments);
-            }
+            const apartments = await getAllApartmentsUnlocked();
+            setApartmentData(apartments);
         })();
     }, []);
 
@@ -37,7 +35,7 @@ export default function DepasMaza() {
                         return;
                     }
                     return (
-                        <ApartmentCard data={item} />
+                        <ApartmentCard data={item} key={item._id} />
                     );
                 })}
             </main>

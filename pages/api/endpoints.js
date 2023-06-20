@@ -68,6 +68,11 @@ export const getAllApartments = async (token) => {
     return response.data;
 }
 
+export const getAllApartmentsUnlocked = async () => {
+    const response = await api.get('/apartment/unlocked');
+    return response.data;
+}
+
 export const uploadPaymentFile = (paymentData, token) => {
     const header = { 'Authorization': `Bearer ${token}` };
     return api.post('/image/payment', paymentData, header);
@@ -78,11 +83,15 @@ export const createReview = async (createReviewDto, token) => {
     const response = await api.post('/review', createReviewDto, { headers: header });
     return response.data;
 }
-export const findReviewByApartmentId = async (_id, token) => {
-    const header = { 'Authorization': `Bearer ${token}` };
-    const response = await api.get(`/review/apartment/${_id}`, { headers: header });
+export const findReviewByApartmentId = async (_id) => {
+    const response = await api.get(`/review/apartment/${_id}`);
     return response.data;
 }
+// export const findReviewByApartmentId = async (_id, token) => {
+//     const header = { 'Authorization': `Bearer ${token}` };
+//     const response = await api.get(`/review/apartment/${_id}`, { headers: header });
+//     return response.data;
+// }
 export const updateReview = async (_id, comment, token) => {
     const header = { 'Authorization': `Bearer ${token}` };
     const response = await api.update(`/review/${_id}`, comment, { headers: header });

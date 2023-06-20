@@ -17,7 +17,7 @@ export default function Admin() {
     const [reviewed, setReviewed] = useState(false);
     const router = useRouter();
 
-    if (!authenticated || !user) {
+    if (typeof window !== 'undefined' && (!authenticated || !user)) {
         router.push("/login");
     }
 

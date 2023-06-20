@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css'
 import NavBar from '../components/navbar'
 import ApartmentCard from '../components/cityApartments/cityApartmentCard';
 import { useAuthContext } from '../hooks/useAuth';
-import { getAllApartments } from './api/endpoints';
+import { getAllApartmentsUnlocked } from './api/endpoints';
 import { useEffect, useState } from 'react';
 
 
@@ -15,10 +15,8 @@ export default function DepasBaja() {
 
     useEffect(() => {
         (async () => {
-            if (user) {
-                const apartments = await getAllApartments(user.access_token);
-                setApartmentData(apartments);
-            }
+            const apartments = await getAllApartmentsUnlocked();
+            setApartmentData(apartments);
         })();
     }, []);
 
@@ -37,7 +35,7 @@ export default function DepasBaja() {
                         return;
                     }
                     return (
-                        <ApartmentCard data={item} />
+                        <ApartmentCard data={item} key={item._id} />
                     );
                 })}
             </main>
