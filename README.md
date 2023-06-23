@@ -31,4 +31,5 @@ This project solves the problem of managing the booking and payments for apartme
 
 # License
 
-MIT
+
+[MIT](https://mit-license.org/)
