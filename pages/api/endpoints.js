@@ -43,9 +43,9 @@ export const getBookingById = (bookingId, token) => {
     return api.get(`/booking/${bookingId}`, bookingId, header);
 }
 
-export const reviewBooking = async (bookingId, status, token) => {
+export const reviewBooking = async (bookingId, adminId, status, token) => {
     const header = { 'Authorization': `Bearer ${token}` };
-    const body = { 'status': status }
+    const body = { '_adminId': adminId, 'status': status }
     const response = await api.patch(`/booking/review/${bookingId}`, body, { headers: header });
     return response.data;
 }

@@ -39,7 +39,7 @@ export default function Admin() {
     }, []);
 
     const handleReview = async (id, status) => {
-        const review = await reviewBooking(id, status, user.access_token);
+        const review = await reviewBooking(id, user.user._id, status, user.access_token);
         setReviewed(!reviewed);
         alert(`Se actualizo el estatus a ${status}  exitosamente!`);
 

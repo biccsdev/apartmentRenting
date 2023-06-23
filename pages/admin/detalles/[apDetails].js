@@ -108,9 +108,11 @@ export default function Details() {
                     <div className="bg-slate-200 flex flex-wrap justify-center">
                         <h1 className="font-bold p-5 w-full">Historial de Rentas</h1>
                         {booking && (booking.map((item) => {
+                            console.log(item)
                             return (
                                 <div className="m-5 p-5 bg-slate-300 rounded text-center xl:w-1/2">
                                     <h1>{item.apartment.title}</h1>
+                                    <h1>Revisado por: {item.adminReviewed}</h1>
                                     <h2>{item.user.name}</h2>
                                     <h2>{item.user.phoneNumber}</h2>
                                     <h2>
