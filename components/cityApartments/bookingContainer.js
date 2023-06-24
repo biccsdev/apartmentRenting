@@ -252,10 +252,10 @@ const BookingContainer = ({ props }) => {
     return (
         <div>
             {!bookingStarted && (
-                <div className="w-full">
+                <div className="w-full text-2xl">
                     <div className="p-5">
-                        <div className="w-4/5 m-auto h-px bg-gray-500"></div>
-                        <h1 className="w-full text-left font-bold p-5">
+                        <div className="w-4/5 m-auto h-px bg-gray-500 lg:hidden"></div>
+                        <h1 className="w-full text-left font-bold p-5 lg:text-center">
                             Selecciona los dias a reservar
                         </h1>
                     </div>
@@ -269,8 +269,8 @@ const BookingContainer = ({ props }) => {
                         filterDate={(date) => date >= new Date()}
                         className="p-5 block m-auto rounded w-1/2 text-slate-900 bg-slate-300"
                     />
-                    <div className="w-4/5 m-auto h-px bg-gray-500 mt-5"></div>
-                    <h1 className="w-4/5 text-left font-bold p-5">Reserva ahora</h1>
+                    <div className="w-4/5 m-auto h-px bg-gray-500 mt-5 lg:hidden"></div>
+                    <h1 className="w-4/5 lg:w-full text-left font-bold p-5 lg:text-center">Reserva ahora</h1>
                     <div className="p-5 bg-slate-300 w-4/5 rounded block m-auto pb-5">
                         {startDate && endDate && (
                             <div className="p-5">
@@ -315,10 +315,10 @@ const BookingContainer = ({ props }) => {
                 </div>
             )}
             {(bookingStarted && !user) && (
-                <div className="flex flex-wrap items-center p-5">
+                <div className="flex flex-wrap items-center p-5 text-2xl">
                     <div className="w-4/5 m-auto h-px bg-gray-500"></div>
                     <h1 className="w-4/5 text-left font-bold p-5">Debe de iniciar sesion antes de continuar...</h1>
-                    <Link className="bg-orange-400  hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" href="/login">
+                    <Link className="ml-5 bg-orange-400  hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" href="/login">
                         Iniciar Sesion
                     </Link>
                 </div>
