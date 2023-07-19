@@ -94,7 +94,12 @@ export const findReviewByApartmentId = async (_id) => {
 // }
 export const updateReview = async (_id, comment, token) => {
     const header = { 'Authorization': `Bearer ${token}` };
-    const response = await api.update(`/review/${_id}`, comment, { headers: header });
+    const response = await api.patch(`/review/${_id}`, comment, { headers: header });
+    return response.data;
+}
+export const actionReview = async (_id, _userId, action, token) => {
+    const header = { 'Authorization': `Bearer ${token}` };
+    const response = await api.patch(`/review/like/${_id}`, { action: action, userId: _userId }, { headers: header });
     return response.data;
 }
 export const deleteReview = async (_id, token) => {

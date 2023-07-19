@@ -242,9 +242,6 @@ const BookingContainer = ({ props }) => {
         router.push('/user')
 
         event.preventDefault();
-        // Perform any necessary actions with the selected image
-        // (e.g., upload it to a server, process it, etc.)
-        // console.log(selectedImage);
     };
 
 

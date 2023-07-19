@@ -42,7 +42,7 @@ export default function Login() {
 
     };
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault();
         const { emailLogin, passwordLogin } = event.target.elements;
 
@@ -50,15 +50,16 @@ export default function Login() {
             email: emailLogin.value,
             password: passwordLogin.value,
         };
-        const res = login(credentials).then((result) => {
-            if (result) {
-                alert('Ha Iniciado Sesion Correctamente!');
-                router.push('/');
-            }
-            if (result === undefined) {
-                alert('Datos incorrectos, intente denuevo.')
-            }
-        });
+        const result = await login(credentials);
+        console.log(result);
+        if (result || result === false) {
+            alert('Ha Iniciado Sesion Correctamente!');
+            await router.push('/');
+        }
+        if (result === undefined) {
+            alert('Datos incorrectos, intente de nuevo.')
+        }
+
 
     };
     return (

@@ -6,9 +6,6 @@ import { getAllUserBookings } from "../api/endpoints";
 
 export default function ProfileComponent() {
     const { user, authenticated, error } = useAuthContext();
-    // const router = useRouter();
-    // const data = router.query.apartment;
-    // console.log(data);
     const [showCode, setShowCode] = useState(false);
     const [activeBooking, setActiveBooking] = useState(null);
     const [pastBooking, setPastBooking] = useState(null);
@@ -24,16 +21,27 @@ export default function ProfileComponent() {
                 const bookings = await getAllUserBookings({ userId: user.user._id }, user.access_token);
                 bookings.map((item) => {
                     const leaveDate = new Date(item.leaveDate);
+                    const arriveDate = new Date(item.arriveDate);
+
+                    console.log(`leave date: ${leaveDate}`)
+                    console.log(`arrive date: ${arriveDate}`)
+                    console.log(`current date: ${currentDate}`)
+                    console.log(`status: ${item.status}`)
 
                     if (leaveDate < currentDate) {
+                        console.log('past')
+
                         past.push(item);
                     }
-                    if (item.status === 'PENDING') {
+                    if (item.status === 'PENDING' || ((item.status === 'ACCEPTED') && (arriveDate > currentDate))) {
+                        console.log('pending')
                         pending.push(item)
                     }
-                    if (item.status === 'ACCEPTED') {
+                    if (item.status === 'ACCEPTED' && ((leaveDate > currentDate) && (arriveDate <= currentDate))) {
+                        console.log('accepted')
                         active.push(item)
                     }
+                    console.log('*********************')
 
                 })
                 if (active[0]) {
@@ -48,7 +56,7 @@ export default function ProfileComponent() {
                 }
             }
         })()
-    });
+    }, []);
 
     const handleShowCode = () => {
         setShowCode(!showCode);
@@ -103,6 +111,7 @@ export default function ProfileComponent() {
                                         <h1 className="text-lg font-bold mb-2">Clave Caja de Llaves</h1>
                                         <p className="text-gray-600 mb-4">Accede a las llaves de la puerta principal</p>
                                         <p className="text-gray-600 font-bold mb-4">{item.apartment.title}</p>
+                                        <h3 className="text-gray-600 ">{new Date(item.arriveDate).toLocaleDateString()} - {new Date(item.leaveDate).toLocaleDateString()}</h3>
                                         {showCode ? (
                                             <p className="text-2xl font-bold">{item.apartment.keyBoxPassword}</p>
                                         ) : (
@@ -132,6 +141,7 @@ export default function ProfileComponent() {
                                 return (<>
                                     <div className="p-4 bg-gray-100 rounded text-left">
                                         <h1 className="text-lg font-bold mb-2">{item.apartment.title}</h1>
+                                        <h2 className="text-lg font-bold mb-2">{item.status}</h2>
                                         <h3 className="text-gray-600 ">{new Date(item.arriveDate).toLocaleDateString()} - {new Date(item.leaveDate).toLocaleDateString()}</h3>
                                     </div>
                                     <div className="w-4/5 m-auto h-px bg-gray-500"></div>
@@ -149,10 +159,16 @@ export default function ProfileComponent() {
                             </div>
                         )}
                         {pastBooking && (
-                            <div className="p-4 bg-gray-100 rounded">
-                                <h1 className="text-lg font-bold mb-2">Title</h1>
-                                <h3 className="text-gray-600">Date</h3>
-                            </div>
+                            pastBooking.map((item) => {
+                                return (<>
+                                    <div className="p-4 bg-gray-100 rounded text-left">
+                                        <h1 className="text-lg font-bold mb-2">{item.apartment.title}</h1>
+                                        <h3 className="text-gray-600 ">{new Date(item.arriveDate).toLocaleDateString()} - {new Date(item.leaveDate).toLocaleDateString()}</h3>
+                                    </div>
+                                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+
+                                </>)
+                            })
                         )}
                     </div>
                 </div></div>

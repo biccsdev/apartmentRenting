@@ -5,14 +5,16 @@ import NavBar from "../../components/navbar";
 import ImagesContainer from "../../components/cityApartments/imagesContainer";
 import MapContainer from "../../components/cityApartments/mapContainer";
 import BookingContainer from "../../components/cityApartments/bookingContainer";
-import { createReview, findReviewByApartmentId, getAllUserBookings, getApartmentById, getAllApartmentsUnlocked } from "../api/endpoints";
+import { createReview, findReviewByApartmentId, getAllUserBookings, actionReview, getAllApartmentsUnlocked } from "../api/endpoints";
 import { useAuthContext } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
+
 import { bed } from "../../public/bed.png";
 import { work } from "../../public/work-from-home.png";
 import { key } from "../../public/key.png";
+import { Review } from "../../components/review";
 
 const depaCaboA = [
     "/apartmentPictures/losCabos/A/highlight.png",
@@ -185,25 +187,28 @@ export default function Apartment() {
         (async () => {
             // if (user) {
             const apartment = await getAllApartmentsUnlocked();
-            apartment.map((item) => {
+            apartment.map(async (item) => {
                 if (item._id == data) {
                     setApartmentData(item)
+                    // apId = item._id;
+                    const reviews = await findReviewByApartmentId(item._id);
+                    if (reviews.length > 0) {
+                        setReviews(reviews);
+                    }
                 }
             })
             if (user) {
                 const bookings = await getAllUserBookings(user._id, user.access_token);
-                bookings.map((item) => {
-                    if (item.user.name === user.user.name) {
+                bookings.map((item2) => {
+                    if (item2.user.name === user.user.name) {
                         setHasRented(true);
                     }
                 })
             }
             // setApartmentData(apartment);
             // const reviews = await findReviewByApartmentId(apartment._id, user.access_token);
-            const reviews = await findReviewByApartmentId(apartment._id);
-            if (reviews.length > 0) {
-                setReviews(reviews);
-            }
+
+
             // }
             // if (!authenticated) {
             //     router.push('/login');
@@ -217,6 +222,15 @@ export default function Apartment() {
         setInputValue(event.target.value);
     };
 
+    const handleButton = async (state, reviewId) => {
+        if (state) {
+            await actionReview(reviewId, user.user._id, 'like', user.access_token);
+
+        } else if (!state) {
+            await actionReview(reviewId, user.user._id, 'dislike', user.access_token);
+        }
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const createReviewDto = {
@@ -225,6 +239,9 @@ export default function Apartment() {
             comment: inputValue
         }
         const review = await createReview(createReviewDto, user.access_token);
+        if (review) {
+            alert("Comentario enviado con exito!");
+        }
     };
 
 
@@ -417,21 +434,25 @@ export default function Apartment() {
                                     )}
                                     <h1 className="w-full text-left font-bold p-5 text-2xl">Reseñas</h1>
                                     <div className="p-5">
-                                        {reviews && (
-                                            reviews.map((item) => {
-                                                return (
-                                                    <div className="pb-5 bg-slate-300 p-5 rounded" key={item}>
-                                                        <h1 className="font-bold">{item.creator}</h1>
-                                                        <h1>{item.comment}</h1>
-                                                        <h1 className="font-bold">{new Date(item.createdAt).toISOString().split("T")[0]}</h1>
-                                                    </div>
-                                                );
-                                            })
+                                        {user != null && (
+                                            (reviews) && (
+                                                reviews.map((item) => {
+                                                    return (
+                                                        <Review userId={user.user._id} handleButton={handleButton} item={item} />
+                                                    );
+                                                })
+                                            )
+
                                         )}
-                                        {!reviews && (
-                                            <div>
-                                                <h1 className="w-full text-center font-bold p-5">No hay reseñas por el momento.</h1>
-                                            </div>
+
+                                        {user == null && (
+                                            (reviews) && (
+                                                reviews.map((item) => {
+                                                    return (
+                                                        <Review userId={0} handleButton={handleButton} item={item} />
+                                                    );
+                                                })
+                                            )
                                         )}
                                     </div>
                                 </div>
