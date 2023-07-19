@@ -20,13 +20,7 @@ export default function ProfileComponent() {
                 const active = [];
                 const bookings = await getAllUserBookings({ userId: user.user._id }, user.access_token);
                 bookings.map((item) => {
-                    const leaveDate = new Date(item.leaveDate);
-                    const arriveDate = new Date(item.arriveDate);
 
-                    console.log(`leave date: ${leaveDate}`)
-                    console.log(`arrive date: ${arriveDate}`)
-                    console.log(`current date: ${currentDate}`)
-                    console.log(`status: ${item.status}`)
 
                     if (leaveDate < currentDate) {
                         console.log('past')

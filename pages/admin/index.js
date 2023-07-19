@@ -12,6 +12,7 @@ export default function Admin() {
     const { user, authenticated, error } = useAuthContext();
     const [departments, setDepartments] = useState(null);
     const [pendingBookings, setPendingBookings] = useState(null);
+    const [activeBookings, setActiveBookings] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [reviewed, setReviewed] = useState(false);
@@ -24,16 +25,34 @@ export default function Admin() {
     useEffect(() => {
         (async () => {
             const bkHelp = [];
+            const bkActive = [];
             const deps = await getAllApartments(user.access_token);
             const books = await getAllBookings(user.access_token);
             setDepartments(deps);
             books.map((item) => {
+                const leaveDate = new Date(item.leaveDate);
+                const arriveDate = new Date(item.arriveDate);
+                const currentDate = new Date();
+
+                console.log(`leave date: ${leaveDate}`)
+                console.log(`arrive date: ${arriveDate}`)
+                console.log(`current date: ${currentDate}`)
+                console.log(`status: ${item.status}`)
                 if (item.status === "PENDING") {
                     bkHelp.push(item);
                 }
+                if (item.status === "ACCEPTED" && ((arriveDate <= currentDate) && leaveDate > currentDate)) {
+                    bkActive.push(item);
+                }
             });
+            console.log(`active: ${bkActive}`)
+            console.log("***************")
+
             if (bkHelp[0]) {
                 setPendingBookings(bkHelp);
+            }
+            if (bkActive[0]) {
+                setActiveBookings(bkActive);
             }
         })();
     }, []);
@@ -98,6 +117,41 @@ export default function Admin() {
                         })}
                 </div>
                 <div className="max-w-md mx-auto  rounded p-5  text-slate-800">
+                    <h2 className="text-2xl font-bold mb-4 pl-5">
+                        Rentas Activas
+                    </h2>
+                    <div className="w-4/5 m-auto h-px bg-gray-500"></div>
+                    {!activeBookings && (
+                        <div>
+                            <h1 className="text-xl font-bold mb-4 pl-5">
+                                No tienes rentas activas.
+                            </h1>
+                        </div>
+                    )}
+                    {activeBookings &&
+                        activeBookings.map((item) => {
+                            return (
+                                <div className="m-5 p-5 bg-slate-300 rounded text-center">
+                                    <h1 className="font-bold">{item.apartment.title}</h1>
+                                    <h2>{item.user.name}</h2>
+                                    <h2>+{item.user.phoneNumber}</h2>
+                                    <h2>
+                                        {item.arriveDate.slice(0, 10)} -{" "}
+                                        {item.leaveDate.slice(0, 10)}
+                                    </h2>
+                                    <h3>${item.totalCost} MXN</h3>
+                                    {selectedImage && (
+                                        <Modal isOpen={isModalOpen} onRequestClose={closeModal} className="w-fit pt-56 block m-auto">
+                                            <img className="h-96 w-96" src={selectedImage} alt="Payment Proof" />
+                                            <button className="bg-orange-400 w-fit mt-2 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" onClick={closeModal}>Cerrar</button>
+                                        </Modal>
+                                    )}
+                                    <button onClick={() => handlePaymentProof(item)} className="mt-2 block m-auto bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow">
+                                        Ver comprobante de pago
+                                    </button>
+                                </div>
+                            );
+                        })}
                     <h2 className="text-2xl font-bold mb-4 pl-5">
                         Pendientes por Aprobar
                     </h2>
