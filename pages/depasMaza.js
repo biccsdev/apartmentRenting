@@ -15,8 +15,16 @@ export default function DepasMaza() {
 
     useEffect(() => {
         (async () => {
-            const apartments = await getAllApartmentsUnlocked();
-            setApartmentData(apartments);
+            try {
+                const apartments = await getAllApartmentsUnlocked();
+                if (apartments) {
+                    setApartmentData(apartments);
+                } else {
+                    console.error("Empty or undefined response from getAllApartmentsUnlocked");
+                }
+            } catch (error) {
+                console.error("Error fetching apartments:", error);
+            }
         })();
     }, []);
 
@@ -30,14 +38,13 @@ export default function DepasMaza() {
             </Head>
             <NavBar />
             <main className="block m-auto md:flex md:pt-24 h-max xl:w-2/4 bg-slate-200">
-                {apartmentData.map((item, index) => {
-                    if (index <= 1) {
-                        return;
-                    }
-                    return (
+                {apartmentData.length > 0 ? (
+                    apartmentData.map((item) => (
                         <ApartmentCard data={item} key={item._id} />
-                    );
-                })}
+                    ))
+                ) : (
+                    <p>No data</p>
+                )}
             </main>
         </div>
     )
