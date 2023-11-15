@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import styles from "../../styles/Home.module.css";
 import Head from "next/head";
 import NavBar from "../../components/navbar";
 import ImagesContainer from "../../components/cityApartments/imagesContainer";
@@ -9,6 +8,7 @@ import { createReview, findReviewByApartmentId, getAllUserBookings, actionReview
 import { useAuthContext } from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import loading from '../../public/loading.gif'
 
 
 import { bed } from "../../public/bed.png";
@@ -205,14 +205,6 @@ export default function Apartment() {
                     }
                 })
             }
-            // setApartmentData(apartment);
-            // const reviews = await findReviewByApartmentId(apartment._id, user.access_token);
-
-
-            // }
-            // if (!authenticated) {
-            //     router.push('/login');
-            // }
         })();
     });
 
@@ -263,10 +255,10 @@ export default function Apartment() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <NavBar />
-            <main className=" w-full h-full bg-slate-200 pt-28 text-slate-800 md:pt-32 md:p-5">
+            <main className=" w-full h-screen bg-slate-200 pt-28 text-slate-800 md:pt-32 md:p-5">
                 {!apartmentData && (
-                    <div className="font-bold pt-20 text-center h-screen">
-                        <h1>LOADING...</h1>
+                    <div className='w-full flex justify-center mt-10 '>
+                        <Image src={loading} alt='loading gif' />
                     </div>
                 )}
                 {apartmentData && (

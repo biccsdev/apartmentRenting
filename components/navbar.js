@@ -29,12 +29,6 @@ function NavBar() {
                 </Link>
             </div>
             <div className="flex items-center p-4">
-                {/* <Link
-                    className="bg-orange-400 mr-5 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow"
-                    href="/en"
-                >
-                    English
-                </Link> */}
                 {!user && (
                     <Link className="bg-orange-400 hover:bg-gray-100 text-slate-100 font-semibold py-2 px-4 border border-orange-700 rounded shadow" href="/login">
                         Iniciar Sesion
