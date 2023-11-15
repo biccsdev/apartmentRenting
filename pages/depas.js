@@ -39,17 +39,20 @@ export default function Depas() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             {/* <NavBar /> */}
-            <main className="block m-auto md:flex md:pt-24 h-max xl:w-2/4 bg-slate-200">
+            <main className="block m-auto md:flex md:pt-24  bg-slate-200">
                 {apartmentData.length === 0 && (
                     <div className='w-full flex justify-center mt-10'>
                         <Image src={loading} alt='loading gif'></Image>
                     </div>
                 )}
-                {apartmentData.length > 0 && (
-                    apartmentData.map((item) => (
-                        <ApartmentCard data={item} key={item._id} />
-                    ))
-                )}
+                <div className='md:w-full md:flex md:justify-center md:flex-wrap'>
+                    {apartmentData.length > 0 && (
+
+                        apartmentData.map((item) => (
+                            <ApartmentCard data={item} key={item._id} />
+                        ))
+                    )}
+                </div>
             </main>
         </div>
     )

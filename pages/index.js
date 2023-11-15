@@ -17,14 +17,7 @@ export default function Home() {
       <main className=" w-full h-screen flex flex-wrap">
         <Depas></Depas>
       </main>
-      <div className="bg-slate-100 w-full h-12">
-        <Link
-          className="ml-4 mt-28 z-10 text-slate-100 w-fit bg-orange-400 border border-orange-500 p-4 font-bold rounded"
-          href="/en"
-        >
-          Visit site in english
-        </Link>
-      </div>
+
     </div>
   );
 }
