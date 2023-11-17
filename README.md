@@ -39,7 +39,7 @@ This project solves the problem of managing the booking and payments for apartme
 
 ## Installation
 
-- Clone and Install the [backend repository](https://github.com/biccsdev/apartmentRentingBackend) on a separate folder
+- Clone and Install the [backend repository](https://github.com/biccsdev/apartmentRentBackend) on a separate folder
 - Clone this repository
 - Navigate to the project's folder
 - Install dependencies: `npm install`
