@@ -52,7 +52,7 @@ This project solves the problem of managing the booking and payments for apartme
 
 ## Use Case Diagram: Book an Apartment
 
-![usecase](/diagram.png)
+![usecase](/public/diagram.png)
 
 # License
 
