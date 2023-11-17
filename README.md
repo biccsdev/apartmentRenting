@@ -52,7 +52,7 @@ This project solves the problem of managing the booking and payments for apartme
 
 ## Use Case Diagram: Book an Apartment
 
-![usecase](https://github.com/biccsdev/apartmentRenting/assets/86041666/42e09cf2-098a-484e-ac28-d707ddebb307)
+![usecase](/diagram.png)
 
 # License
 
