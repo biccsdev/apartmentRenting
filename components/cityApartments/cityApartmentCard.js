@@ -2,12 +2,11 @@ import Link from 'next/link';
 
 function ApartmentCard(data) {
     const { _id, title, description, thumbnail, location } = data.data;
-    console.log(location)
 
     const imageSrc = `/apartmentPictures/${location.slice(0, location.length - 1).toLowerCase()}/${location.slice(location.length - 1, location.length)}/highlight.png`;
 
     return (
-        <div className='bg-white pt-10 p-8 md:w-2/5 md:m-auto'>
+        <div className='bg-white pt-10 p-8 md:w-2/5 md:m-auto md:m-3'>
             <div className='rounded p-3 shadow-lg overflow-hidden md:w-1/2 md:m-auto'>
                 <img className='w-full h-auto rounded-md' src={imageSrc} alt={`View of ${location}`} />
             </div>

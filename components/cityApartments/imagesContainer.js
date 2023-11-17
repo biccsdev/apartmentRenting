@@ -48,7 +48,7 @@ const ImagesContainer = ({ images }) => {
                 {isFullScreen ? (
                     <button
                         onClick={toggleFullScreen}
-                        className="bg-orange-400 text-white px-4 py-2 rounded-md"
+                        className="bg-orange-400 text-white px-4 py-2 rounded-md "
                     >
                         Ver menos
                     </button>
